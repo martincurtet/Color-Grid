@@ -1,6 +1,8 @@
 // settings
 const minRows = 1
 const maxRows = 20
+const minCols = 1
+const maxCols = 20
 
 // dom
 const table = document.querySelector("table")
@@ -36,4 +38,32 @@ function deleteRow() {
 
   console.log("--- Deleting Row ---")
   table.deleteRow(countRows() - 1)
+}
+
+function addCol() {
+  if (countCols() >= maxCols) {
+    console.log("Too many columns!")
+    return
+  }
+
+  console.log("--- Adding Column ---")
+  let rows = table.rows
+  for (let i = 0; i < rows.length; i++) {
+    let cell = document.createElement("td")
+    rows[i].appendChild(cell)
+  }
+}
+
+function deleteCol() {
+  if (countCols() <= 1) {
+    console.log("Too few columns!")
+    return
+  }
+
+  console.log("--- Deleting Column ---")
+  let rows = table.rows
+  for (let i = 0; i < rows.length; i++) {
+    let cell = rows[i].children[rows[i].children.length - 1]
+    cell.remove()
+  }
 }
