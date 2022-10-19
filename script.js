@@ -11,8 +11,6 @@ const table = document.querySelector("table")
 table.addEventListener("click", function (e) {
   let cell = e.target.closest('td')
   if (!cell) return
-  // let row = cell.parentElement
-  // console.log(row.rowIndex, cell.cellIndex)
   colorCell(cell)
 })
 
@@ -78,6 +76,9 @@ function deleteCol() {
 }
 
 function colorCell(cell) {
+  let row = cell.parentElement
   let color = document.querySelector("#color").value
+
+  console.log(`--- Coloring Cell ${row.rowIndex},${cell.cellIndex} ${color} ---`)
   cell.style.backgroundColor = color
 }
