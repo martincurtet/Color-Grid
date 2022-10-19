@@ -7,6 +7,15 @@ const maxCols = 20
 // dom
 const table = document.querySelector("table")
 
+// listener
+table.addEventListener("click", function (e) {
+  let cell = e.target.closest('td')
+  if (!cell) return
+  // let row = cell.parentElement
+  // console.log(row.rowIndex, cell.cellIndex)
+  colorCell(cell)
+})
+
 // functions
 function countRows() {
   return table.rows.length
@@ -66,4 +75,9 @@ function deleteCol() {
     let cell = rows[i].children[rows[i].children.length - 1]
     cell.remove()
   }
+}
+
+function colorCell(cell) {
+  let color = document.querySelector("#color").value
+  cell.style.backgroundColor = color
 }
