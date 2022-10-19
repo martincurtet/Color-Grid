@@ -11,6 +11,10 @@ body {
   padding: 10px;
 }
 
+button {
+  cursor: pointer;
+}
+
 table {
   border: solid grey 1px;
   border-spacing: 0px;

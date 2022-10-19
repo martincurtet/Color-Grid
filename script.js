@@ -1,15 +1,17 @@
 // settings
+const minRows = 1
 const maxRows = 20
 
 // dom
-const tableBody = document.querySelector("table").tBodies[0]
+const table = document.querySelector("table")
 
+// functions
 function countRows() {
-  return tableBody.children.length
+  return table.rows.length
 }
 
 function countCols() {
-  return tableBody.children[0].children.length
+  return table.rows[0].cells.length
 }
 
 function addRow() {
@@ -19,13 +21,19 @@ function addRow() {
   }
   
   console.log("--- Adding Row ---")
-  // create the row and fill it with cells
-  let row = document.createElement("tr")
+  let row = table.insertRow()
   for (let i = 0; i < countCols(); i++) {
     let cell = document.createElement("td")
     row.appendChild(cell)
   }
+}
 
-  // append to the table
-  tableBody.appendChild(row)
+function deleteRow() {
+  if (countRows() <= 1) {
+    console.log("Too few rows!")
+    return
+  }
+
+  console.log("--- Deleting Row ---")
+  table.deleteRow(countRows() - 1)
 }
