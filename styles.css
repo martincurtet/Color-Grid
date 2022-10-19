@@ -4,6 +4,13 @@ body {
   align-items: center;
 }
 
+#toolbar {
+  border: solid grey 1px;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+
 table {
   border: solid grey 1px;
   border-spacing: 0px;
