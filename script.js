@@ -82,3 +82,39 @@ function colorCell(cell) {
   console.log(`--- Coloring Cell ${row.rowIndex},${cell.cellIndex} ${color} ---`)
   cell.style.backgroundColor = color
 }
+
+function colorAll() {
+  let rows = table.rows
+  let color = document.querySelector("#color").value
+  for (let x = 0; x < rows.length; x++) {
+    let rowCells = rows[x].children
+    for (let y = 0; y < rowCells.length; y++) {
+      if(rowCells[y].style.backgroundColor !== color) {
+        rowCells[y].style.backgroundColor = color
+      }
+    }
+  }
+}
+
+function colorEmpty() {
+  let rows = table.rows
+  let color = document.querySelector("#color").value
+  for (let x = 0; x < rows.length; x++) {
+    let rowCells = rows[x].children
+    for (let y = 0; y < rowCells.length; y++) {
+      if(rowCells[y].style.backgroundColor === "") {
+        rowCells[y].style.backgroundColor = color
+      }
+    }
+  }
+}
+
+function clearAll() {
+  let rows = table.rows
+  for (let x = 0; x < rows.length; x++) {
+    let rowCells = rows[x].children
+    for (let y = 0; y < rowCells.length; y++) {
+      rowCells[y].style.backgroundColor = ""
+    }
+  }
+}
