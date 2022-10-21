@@ -8,11 +8,11 @@ const maxCols = 20
 const table = document.querySelector("table")
 
 // listener
-table.addEventListener("click", function (e) {
-  let cell = e.target.closest('td')
-  if (!cell) return
-  colorCell(cell)
-})
+// table.addEventListener("click", function (e) {
+//   let cell = e.target.closest('td')
+//   if (!cell) return
+//   colorCell(cell)
+// })
 
 // functions
 function countRows() {
@@ -32,8 +32,7 @@ function addRow() {
   console.log("--- Adding Row ---")
   let row = table.insertRow()
   for (let i = 0; i < countCols(); i++) {
-    let cell = document.createElement("td")
-    row.appendChild(cell)
+    row.insertCell()
   }
 }
 
@@ -44,7 +43,7 @@ function deleteRow() {
   }
 
   console.log("--- Deleting Row ---")
-  table.deleteRow(countRows() - 1)
+  table.deleteRow(-1)
 }
 
 function addCol() {
@@ -54,10 +53,8 @@ function addCol() {
   }
 
   console.log("--- Adding Column ---")
-  let rows = table.rows
-  for (let i = 0; i < rows.length; i++) {
-    let cell = document.createElement("td")
-    rows[i].appendChild(cell)
+  for (let i = 0; i < countRows(); i++) {
+    table.rows[i].insertCell()
   }
 }
 
@@ -68,10 +65,8 @@ function deleteCol() {
   }
 
   console.log("--- Deleting Column ---")
-  let rows = table.rows
-  for (let i = 0; i < rows.length; i++) {
-    let cell = rows[i].children[rows[i].children.length - 1]
-    cell.remove()
+  for (let i = 0; i < countRows(); i++) {
+    table.rows[i].deleteCell(-1)
   }
 }
 
@@ -86,6 +81,7 @@ function colorCell(cell) {
 function colorAll() {
   let rows = table.rows
   let color = document.querySelector("#color").value
+  console.log(`--- Coloring All in ${capitalize(color)} ---`)
   for (let x = 0; x < rows.length; x++) {
     let rowCells = rows[x].children
     for (let y = 0; y < rowCells.length; y++) {
@@ -99,6 +95,7 @@ function colorAll() {
 function colorEmpty() {
   let rows = table.rows
   let color = document.querySelector("#color").value
+  console.log(`--- Coloring All Empty in ${capitalize(color)} ---`)
   for (let x = 0; x < rows.length; x++) {
     let rowCells = rows[x].children
     for (let y = 0; y < rowCells.length; y++) {
@@ -111,10 +108,49 @@ function colorEmpty() {
 
 function clearAll() {
   let rows = table.rows
+  console.log(`--- Clear All ---`)
   for (let x = 0; x < rows.length; x++) {
     let rowCells = rows[x].children
     for (let y = 0; y < rowCells.length; y++) {
       rowCells[y].style.backgroundColor = ""
     }
   }
+}
+
+// click and drag
+table.addEventListener('mousedown', (e) => {
+  console.log("--- Start Cell Selection ---")
+  let startCell = e.target.closest('td')
+  if(!startCell) return
+  let startRow = startCell.parentElement
+  selectionStart = [startRow.rowIndex, startCell.cellIndex]
+})
+
+table.addEventListener('mouseup', (e) => {
+  console.log("--- Stop Cell Selection ---")
+  let stopCell = e.target.closest('td')
+  if(!stopCell) return
+  let stopRow = stopCell.parentElement
+  selectionEnd = [stopRow.rowIndex, stopCell.cellIndex]
+  colorSelection()
+})
+
+let selectionStart = []
+let selectionEnd = []
+function colorSelection() {
+  console.log(`--- Coloring Cell Selection [${selectionStart}], [${selectionEnd}] ---`)
+
+  let rowStart = selectionStart[0] > selectionEnd[0] ? selectionEnd[0] : selectionStart[0]
+  let rowEnd = selectionStart[0] > selectionEnd[0] ? selectionStart[0] : selectionEnd[0]
+  let colStart = selectionStart[1] > selectionEnd[1] ? selectionEnd[1] : selectionStart[1]
+  let colEnd = selectionStart[1] > selectionEnd[1] ? selectionStart[1] : selectionEnd[1]
+  for (let i = rowStart; i <= rowEnd; i++) {
+    for (let j = colStart; j <= colEnd; j++) {
+      colorCell(table.rows[i].cells[j])
+    }
+  }
+}
+
+function capitalize (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
